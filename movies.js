@@ -5,12 +5,10 @@ movieContainer.innerHTML = ""
 
 // SCROLL
 window.addEventListener("scroll", function() {
-    // تحديث الحساب لضمان حساب نهاية الصفحة بدقة
     const endOfPage = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight;
 
     console.log(`Scroll event fired. End of Page: ${endOfPage}, Current Page: ${currentPage}, Last Page: ${lastPage}`);
     
-    // التأكد من وجود صفحات جديدة
     if (endOfPage && currentPage < lastPage) {
         currentPage += 1;
         getMovies(null, currentPage); 
@@ -32,7 +30,6 @@ function getMovies(genreId = null, pageNumber = 1) {
             const movies = response.data.results;
             const movieContainer = document.getElementById("movies");
 
-            // تحديث lastPage بناءً على عدد الصفحات من الاستجابة
             lastPage = response.data.total_pages;
 
             // التأكد من إضافة الأفلام الجديدة دون إعادة تعيين المحتوى
@@ -102,7 +99,7 @@ function searchMovies() {
                 card.style.display = "none";
             }
         });
-    }, 300); // يتم تنفيذ البحث بعد 300 مللي ثانية من التوقف عن الكتابة
+    }, 300); 
 }
 
 // استدعاء دالة البحث عند الكتابة في حقل البحث
@@ -136,17 +133,16 @@ async function addMoviesToCarousel() {
     carouselInner.innerHTML = '';
 
     movies.forEach((movie, index) => {
-        if (!movie) return; // تجاهل إذا كانت البيانات فارغة
+        if (!movie) return;
 
-        // تقريب التقييم أو عرضه كعدد صحيح
         const roundedVoteAverage = movie.vote_average % 1 === 0 ? movie.vote_average : movie.vote_average.toFixed(1);
 
         const carouselItem = document.createElement('div');
         carouselItem.classList.add('carousel-item');
-        if (index === 0) carouselItem.classList.add('active'); // تعيين العنصر الأول كنشط
+        if (index === 0) carouselItem.classList.add('active');
 
         carouselItem.innerHTML = `
-            <img src="${imageBaseUrl}${movie.poster_path}" class="d-block w-100" alt="${movie.title}">
+            <img src="${imageBaseUrl}${movie.backdrop_path}" class="d-block w-100" alt="${movie.title}">
             <div class="carousel-caption d-none d-md-block">
                 <div class="details">
                     <i class="fas fa-calendar-day"></i> <p>${movie.release_date}</p>
